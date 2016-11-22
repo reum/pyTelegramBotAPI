@@ -2,6 +2,15 @@
 
 <p align="center">A simple, but extensible Python implementation for the [Telegram Bot API](https://core.telegram.org/bots/api).
 
+### CI status of customized version 
+
+#### master Branch
+[![Build Status](https://travis-ci.org/reum/pyTelegramBotAPI.svg?branch=master)](https://travis-ci.org/reum/pyTelegramBotAPI)
+
+#### dev Branch
+[![Build Status](https://travis-ci.org/reum/pyTelegramBotAPI.svg?branch=dev)](https://travis-ci.org/reum/pyTelegramBotAPI)
+
+<br>
 [![Download Month](https://img.shields.io/pypi/v/pyTelegramBotAPI.svg)](https://pypi.python.org/pypi/pyTelegramBotAPI)
 [![Build Status](https://travis-ci.org/eternnoir/pyTelegramBotAPI.svg?branch=master)](https://travis-ci.org/eternnoir/pyTelegramBotAPI)
 

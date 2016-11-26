@@ -41,11 +41,13 @@ class LibraryHTML(HTMLParserWrapper):
 # search book from library
 @handle_exception
 def search_book(keyword):
-    url = "http://library.sejong.ac.kr/search/Search.IntResult.ax"\
-          "?sid=&q={0}&qf={0}&qt={0}&wid=&tabID=&q1={0}&x=0&y=0&q2"\
-          "=&q3=".format(keyword)
+    url = "http://library.sejong.ac.kr/search/Search.IntResult.ax"
 
-    source = requests.get(url).text
+    params = {
+        'q': keyword
+    }
+
+    source = requests.get(url, data=params).text
 
     print(source)
 

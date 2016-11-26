@@ -1,5 +1,6 @@
 # -*-coding: utf-8-*-
 import requests
+import re
 import traceback
 
 from HTMLParser import HTMLParser
@@ -41,19 +42,14 @@ class LibraryHTML(HTMLParserWrapper):
 # search book from library
 @handle_exception
 def search_book(keyword):
-    url = "http://library.sejong.ac.kr/search/Search.IntResult.ax"
+    url = "http://library.sejong.ac.kr/search/Search.IntResult.ax"\
+          "?q=%s" % keyword
 
-    params = {
-        'q': keyword
-    }
-
-    source = requests.get(url, data=params).text
-
-    print(source)
+    source = requests.get(url).text
 
     lh = LibraryHTML()
     lh.feed(source)
-    result = lh.result
+    result = None
     del lh
 
     return result

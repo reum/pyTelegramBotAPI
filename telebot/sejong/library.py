@@ -1,3 +1,4 @@
+# -*-coding: utf-8-*-
 import requests
 import traceback
 
@@ -54,3 +55,5 @@ def search_book(keyword):
     del lh
 
     return result
+
+search_book(u'프로그래밍')

@@ -3,7 +3,7 @@ import requests
 import re
 import traceback
 
-from HTMLParser import HTMLParser
+from bs4 import BeautifulSoup
 
 
 # exception handler decorator
@@ -19,39 +19,32 @@ def handle_exception(func):
     return wrapper
 
 
-# HTMLParser wrapper
-class HTMLParserWrapper(HTMLParser, object):
-    pass
-
-
-# HTML Library
-class LibraryHTML(HTMLParserWrapper):
-    def __init__(self):
-        super(LibraryHTML, self).__init__()
-
-    def handle_starttag(self, tag, attrs):
-        pass
-
-    def handle_data(self, data):
-        pass
-
-    def handle_endtag(self, tag):
-        pass
-
-
 # search book from library
 @handle_exception
 def search_book(keyword):
-    url = "http://library.sejong.ac.kr/search/Search.IntResult.ax"\
-          "?q=%s" % keyword
+    url = "http://library.sejong.ac.kr/search/Search.Result.ax?"\
+          "?sid=1&q=%s" % keyword
 
     source = requests.get(url).text
 
-    lh = LibraryHTML()
-    lh.feed(source)
-    result = None
-    del lh
+    result = []
+
+    soup = BeautifulSoup(source, 'html.parser')
+
+    for a in soup.find_all('a'):
+        href = a.get("href")
+        if re.match('javascript:search.goDetail\([0-9]{6,8}\);', href):
+            result.append({'bookName': a.get_text().strip()})
+            print a.get_text().strip()
+
+    # counter variable in for loop
+    cnt = 0
+
+    for p in soup.find_all('p', attrs={"class": "tag"}):
+        # bookid, bookstatus
+        bid, stat = p.get_text().split('\n')[2].replace('\t', '').strip().split('   ')
+        result[cnt]['bookId'] = bid
+        result[cnt]['bookStatus'] = stat
+        cnt += 1
 
     return result
-
-search_book(u'프로그래밍')

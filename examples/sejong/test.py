@@ -9,6 +9,9 @@ except ImportError:
 
     from telebot.sejong import easteregg
     from telebot.sejong import volunteer
+    from telebot.sejong import library
 
 print easteregg.crawlInsta()
 print volunteer.getVolunteerInternal()
+
+print library.search_book(u'프로그래밍')

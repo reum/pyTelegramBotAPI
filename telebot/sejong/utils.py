@@ -61,3 +61,6 @@ class Parser(object):
 
     def __len__(self):
         return len(self.args)
+
+class APIError(Exception):
+    pass

@@ -18,8 +18,16 @@ except ImportError:
 a = utils.Parser("-y 2016 -m 11 -d 22")
 
 a.setAssum(int, "date", ["-d", "d", "date"])
-
 print a["date"]
+
+a.setAssum(int, "month", ["-m", "m", ])
+print a["month"]
+
+a = utils.Parser("-t dlwlrma")
+a.setAssum(str, "target", ["-t", "t"])
+print a["target"]
+
+
 
 b = utils.Parser("2016 11 22")
 print type(b[0]), b[0]

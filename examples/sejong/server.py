@@ -23,11 +23,14 @@ Hi there, I am EchoBot.
 I am here to echo your kind words back to you. Just say anything nice and I'll say the exact same thing to you!\
 """)
 
+def sroom_error(e, message):
+    print message
+
 # Handle '/sroom' 
+@bot.set_error_handler(sroom_error)
 @bot.message_handler(commands=['sroom'])
 def search_sroom(message):
     p = utils.Parser(" ".join(message.text.split(" ")[1:]))
-
     p.setAssum(int, "year", ["-y", "y"])
     p.setAssum(int, "month", ["-m", "m"])
     p.setAssum(int, "date", ["-d", "d"])
@@ -70,8 +73,28 @@ def search_sroom(message):
 
 
 # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
+@bot.set_error_handler(sroom_error)
 @bot.message_handler(func=lambda message: True)
 def echo_message(message):
+    s = dict()
+    print s[1]
     bot.reply_to(message, message.text)
 
+
 bot.polling()
+
+"""
+
+@bot.error_handler()
+def Error():
+    pass
+
+
+@bot.error_handler(APIError, func=sroom)
+def api_sroom_error(message, e):
+    logging()
+    bot.reply_to(message, e.error_message)
+
+
+
+"""

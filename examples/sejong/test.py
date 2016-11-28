@@ -21,14 +21,15 @@ except ImportError:
 print rain.weather()
 
 # Easter EGG
-#iu_insta = easteregg.Insta("dlwlrma")
-#print iu_insta.getImage()
-youtube = easteregg.getIUYoutube("IU_playlist.json")
-print youtube['title'], "|", youtube['url']
+# iu_insta = easteregg.Insta("dlwlrma")
+# print iu_insta.getImage()
+# youtube = easteregg.getIUYoutube("IU_playlist.json")
+# print youtube['title'], "|", youtube['url']
 
 # Volunteer
 print volunteer.getVolunteerInternal()
 print volunteer.getVolunteerExternal()
+exit(0)
 
 # Volunteer
 volE = volunteer.getVolunteerExternal()

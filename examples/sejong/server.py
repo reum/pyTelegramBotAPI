@@ -1,31 +1,79 @@
-﻿#-*- coding: utf-8 -*-
-import sys, os
+﻿# -*- coding: utf-8 -*-
+import sys
+import os
+import random
 
 try:
     import telebot
 except ImportError:
+    sys.path.append("../../")
     sys.path.append(os.getcwd())
     import telebot
-    from telebot.sejong import *
+
+    from telebot.sejong import easteregg
+    from telebot.sejong import volunteer
+    from telebot.sejong import cvesearch
+    from telebot.sejong import studyroom
+    from telebot.sejong import news
+    from telebot import types
 
 try:
     from api_token import API_TOKEN
 except ImportError as e:
     API_TOKEN = '<api_token>'
 
+#################
 bot = telebot.TeleBot(API_TOKEN)
+#################
 
-# Handle '/start' and '/help'
-@bot.message_handler(commands=['help', 'start'])
+@bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, """\
-Hi there, I am EchoBot.
-I am here to echo your kind words back to you. Just say anything nice and I'll say the exact same thing to you!\
-""")
+    bot.reply_to(message, "Howdy, how are you doing?")
 
-# Handle all other messages with content_type 'text' (content_types defaults to ['text'])
+
+@bot.message_handler(commands=['iu'])
+def send_easteregg(message):
+    i = random.randint(0, 1)
+    if i == 0:
+        fname_photo = iu_insta.getImage()
+        photo = open('./insta_images/'+fname_photo, 'rb')
+        bot.send_photo(message.chat.id, photo)
+    else:
+        youtube = iu_youtube.getIUYoutube()
+        youtube_str = u"오늘의 음악추천 : "+youtube['title']+ u"\nURL :"+ youtube['url']
+        bot.reply_to(message, youtube_str)
+
+
+@bot.message_handler(commands=['vol'])
+def send_volunteerinfo(message):
+    chat_id = message.chat.id
+    markup = types.ReplyKeyboardMarkup()
+    itembtna = types.KeyboardButton(u'외부 봉사')
+    itembtnv = types.KeyboardButton(u'내부 봉사')
+    markup.row(itembtna, itembtnv)
+    bot.send_message(chat_id, "Choose volunteer:", reply_markup=markup)
+
+@bot.message_handler(func=lambda message: message.text == u'/내부봉사' and message.content_type == 'text')
+def send_volunteerinfo(message):
+    chat_id = message.chat.id
+    result = ""
+    volInternal = volunteer.getVolunteerInternal()
+    for vol in volInternal:
+        result += u"봉사 이름 :"+vol['title']
+        result += u"봉사 기간 :"+vol['data']
+    youtube_str = u"오늘의 음악추천 : "+youtube['title']+ u"\nURL :"+ youtube['url']
+    bot.reply_to(message, youtube_str)
+
+
 @bot.message_handler(func=lambda message: True)
-def echo_message(message):
+def echo_all(message):
     bot.reply_to(message, message.text)
+    print message
 
-bot.polling()
+if __name__ == '__main__':
+    iu_insta = easteregg.Insta("dlwlrma")
+    iu_youtube = easteregg.IUYoutube()
+    iu_youtube.setJsonFile("IU_playlist.json")
+
+    bot.polling(none_stop=False, interval=1)
+

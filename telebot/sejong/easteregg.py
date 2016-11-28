@@ -98,19 +98,25 @@ class Insta():
         random.seed = time.time()
         fname = random.choice(self.getLocalImages())
         return fname
+class IUYoutube():
+    """docstring for IUYoutube"""
+    def __init__(self):
+        self.youtube_list = {}
+    
+    def setJsonFile(self, fname):        
+        try:
+            f = open(fname, "rb")
+            self.youtube_list = json.loads(f.read())['list']
+            f.close()
+        except Exception as e:
+            print e
+            return False
 
-def getIUYoutube(fname):
-	"""
-		Get random URL from playlists.
-	"""
-	result = {}
-	random.seed = time.time()
-	try:
-		f = open(fname, "rb")
-		result = json.loads(f.read())['list']
-		result = random.choice(result)
-		f.close()
-	except Exception as e:
-		print e
-		return False
-	return result
+    def getIUYoutube(self):
+        """
+            Get random URL from playlists.
+        """
+        result = {}
+        random.seed = time.time()
+        result = random.choice(self.youtube_list)
+        return result

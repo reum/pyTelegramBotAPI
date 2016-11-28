@@ -75,7 +75,7 @@ def send_volunteerinfo(message):
         result += u"봉사 이름 :"+vol['title']+"\n"
     bot.reply_to(message, result)
 
-<<<<<<< HEAD
+
 
 # News
 @bot.message_handler(commands=['news'])
@@ -117,12 +117,12 @@ def send_news(message):
 def echo_all(message):
     bot.reply_to(message, message.text)
     print message
-=======
+
 #@bot.message_handler(func=lambda message: True)
 #def echo_all(message):
 #    bot.reply_to(message, message.text)
 #    print message
->>>>>>> dev
+
 
 if __name__ == '__main__':
 	

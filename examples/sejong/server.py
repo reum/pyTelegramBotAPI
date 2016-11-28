@@ -97,7 +97,6 @@ def send_news(message):
         newsText += "["+newsItem['title']+"]"+'\n'
         newsText += newsItem['description']+"..."+'\n'
         newsText += u"링크 : "+newsItem['link']+'\n\n'
-    newsText = newsText[:4096]
     bot.reply_to(message, newsText)
 
 @bot.message_handler(func=lambda message: message.text == u'/인기기사' and message.content_type == 'text')
@@ -110,7 +109,6 @@ def send_news(message):
         newsText += "["+newsItem['title']+"]"+'\n'
         newsText += newsItem['description']+"..."+'\n'
         newsText += u"링크 : "+newsItem['link']+'\n\n'
-    newsText = newsText[:4096]
     bot.reply_to(message, newsText)
 	
 

@@ -11,6 +11,7 @@ except ImportError:
 
     from telebot.sejong import easteregg
     from telebot.sejong import volunteer
+    from telebot.sejong import library
     from telebot.sejong import cvesearch
     from telebot.sejong import studyroom
     from telebot.sejong import news
@@ -39,6 +40,9 @@ for vol in volI:
 
 
 
+
+# library keyword search
+print library.search_book(u'프로그래밍')
 
 # cve search
 cs = CVESearch()

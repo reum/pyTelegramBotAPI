@@ -20,7 +20,8 @@ except ImportError:
 try:
     from api_token import API_TOKEN
 except ImportError as e:
-    API_TOKEN = '<api_token>'
+	API_TOKEN = '<api_token>'
+
    
 #################
 bot = telebot.TeleBot(API_TOKEN)
@@ -74,10 +75,10 @@ def send_volunteerinfo(message):
         result += u"봉사 이름 :"+vol['title']+"\n"
     bot.reply_to(message, result)
 
-@bot.message_handler(func=lambda message: True)
-def echo_all(message):
-    bot.reply_to(message, message.text)
-    print message
+#@bot.message_handler(func=lambda message: True)
+#def echo_all(message):
+#    bot.reply_to(message, message.text)
+#    print message
 
 if __name__ == '__main__':
     iu_insta = easteregg.Insta("dlwlrma")

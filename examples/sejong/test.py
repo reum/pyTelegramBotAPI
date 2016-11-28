@@ -6,20 +6,62 @@ try:
     import telebot
 except ImportError:
     sys.path.append(os.getcwd())
+    sys.path.append("../../")
     import telebot
 
     from telebot.sejong import easteregg
     from telebot.sejong import volunteer
     from telebot.sejong.cvesearch import CVESearch
+    from telebot.sejong import library
     from telebot.sejong import studyroom
+    from telebot.sejong import news
 
-print easteregg.crawlInsta()
+# Easter EGG
+#iu_insta = easteregg.Insta("dlwlrma")
+#print iu_insta.getImage()
+youtube = easteregg.getIUYoutube("IU_playlist.json")
+print youtube['title'], "|", youtube['url']
+
+# Volunteer
 print volunteer.getVolunteerInternal()
+print volunteer.getVolunteerExternal()
+
+# Volunteer
+volE = volunteer.getVolunteerExternal()
+volI = volunteer.getVolunteerInternal()
+
+for vol in volE:
+	print vol['title']
+
+for vol in volI:
+	print vol['title']
+	print vol['date']
+	print vol['time']
+
+
+
+
+# library keyword search
+print library.search_book(u'프로그래밍')
 
 # cve search
 cs = CVESearch()
 result = cs.search_by_number('2016-1111')
 print result
+
+#SecuNews
+data = news.getNews('news_issue')
+newsIndex = data[0]
+newsList = data[1]
+
+for index in newsIndex:
+    title = newsIndex[index]
+    print '<',index,'>'
+    print '[',newsList[title,'title'],']'
+    print newsList[title,'description'],'...'
+    print '링크:',newsList[title,'link']
+    print ""
+
 
 # Study room search
 rs = studyroom.RoomStatus.instance()
@@ -40,3 +82,4 @@ print rs.search(2016,10,12,range(10, 10+4))
 
 # usage 3
 print rs.mappingResult(rs.search(2016,10,12,range(10, 10+4)))
+

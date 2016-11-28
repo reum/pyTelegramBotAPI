@@ -9,7 +9,6 @@ def time_elap_now(time):
 def to_sec(time):
     return time.total_seconds()
 
-
 class Parser(object):
     def __init__(self, text):
         self.args = text.split(" ")

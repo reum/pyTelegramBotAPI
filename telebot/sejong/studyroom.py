@@ -148,12 +148,13 @@ class RoomStatus(SingletonInstane):
     def search(self, year, month, date, time_range):
 
         if type(time_range) is int : time_range = [time_range]
-
-        assert type(year) is int
-        assert type(month) is int
-        assert type(date) is int
-        assert isinstance(time_range, Iterable)
-
+        try:
+            assert type(year) is int
+            assert type(month) is int
+            assert type(date) is int
+            assert isinstance(time_range, Iterable)
+        except:
+            raise utils.APIError
         self.update(year, month)
 
         preset = None

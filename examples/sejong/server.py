@@ -22,12 +22,7 @@ except ImportError:
 try:
     from api_token import API_TOKEN
 except ImportError as e:
-<<<<<<< HEAD
-	API_TOKEN = '276556030:AAGwUMBx9fkUMmISaJSZY7Zy3Rc6krjM7Z8'
-
-=======
 	API_TOKEN = '<api_token>'
->>>>>>> 6a4b0ff644226ac0ee5d9ed4e80f7e69032aaa94
    
 #################
 bot = telebot.TeleBot(API_TOKEN)
@@ -37,9 +32,7 @@ bot = telebot.TeleBot(API_TOKEN)
 def send_welcome(message):
     bot.reply_to(message, "Howdy, how are you doing?")
 
-<<<<<<< HEAD
 # Easteregg
-=======
 
 @bot.message_handler(commands=['cve'])
 def send_cvesearch(message):
@@ -92,7 +85,6 @@ def send_library(message):
     bot.reply_to(message, lib_str)
 
 
->>>>>>> 6a4b0ff644226ac0ee5d9ed4e80f7e69032aaa94
 @bot.message_handler(commands=['iu'])
 def send_easteregg(message):
     i = random.randint(0, 1)
@@ -136,7 +128,6 @@ def send_volunteerinfo(message):
         result += u"봉사 이름 :"+vol['title']+"\n"
     bot.reply_to(message, result)
 
-<<<<<<< HEAD
 
 
 # News
@@ -184,7 +175,6 @@ def echo_all(message):
 #def echo_all(message):
 #    bot.reply_to(message, message.text)
 #    print message
-=======
 @bot.message_handler(commands=['sroom'])
 def search_sroom(message):
     p = utils.Parser(" ".join(message.text.split(" ")[1:]))
@@ -211,7 +201,6 @@ def search_sroom(message):
     except:
         bot.reply_to(message, "Error!! %s" %(message.text,))
 
->>>>>>> 6a4b0ff644226ac0ee5d9ed4e80f7e69032aaa94
 
 
 if __name__ == '__main__':

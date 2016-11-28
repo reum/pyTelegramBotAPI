@@ -1,7 +1,11 @@
-# -*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 import re
 import requests
 import json
+import hashlib
+import base64
+import sqlite3
+
 
 URL_VOLUNTEERINTERNAL = "http://volunteer.sejong.ac.kr/vmsUsrOfenListInfo.do?mzcode=K00M050101"
 URL_VOLUNTEEREXTERNAL = "http://volunteer.sejong.ac.kr/boardList.do?bcode=B0011"
@@ -22,11 +26,11 @@ def getVolunteerInternal():
 	"""
 	result = []
 	try:
-		volunteer_info = {}
 		data = requests.get(URL_VOLUNTEERINTERNAL).text
 		data = data.replace("\n", "").replace("\r", "").replace("\t", "")
 		volunteers = re.findall("<tr>.*?</tr>", data)
 		for i in volunteers[1:]:
+			volunteer_info = {} # Fix bug 
 			if "recruit_close.gif" in i: # if not available anymore
 				continue
 			vol_data = re.findall("<td>(.*?)</td>", i)
@@ -34,6 +38,7 @@ def getVolunteerInternal():
 			volunteer_info['date'] = vol_data[3]
 			volunteer_info['day'] = vol_data[5]
 			volunteer_info['time'] = vol_data[4]
+			volunteer_info['hash'] = hashlib.sha256(volunteer_info['title'].encode("utf-8").encode("base64") + volunteer_info['date'] + volunteer_info['time']).hexdigest() # For alert
 			result.append(volunteer_info)
 	except Exception, e:
 		print "An error occured, ", e
@@ -52,19 +57,16 @@ def getVolunteerExternal():
 	"""
 	result = []
 	try:
-		volunteer_info = {}
 		data = requests.get(URL_VOLUNTEEREXTERNAL).text
 		data = data.replace("\n", "").replace("\r", "").replace("\t", "")
 		volunteers = re.findall("<tr>.*?</tr>", data)
 		for i in volunteers[1:]:
 			if "recruit_close.gif" in i: # if not available anymore
 				continue
+			volunteer_info = {} # Fix bug
 			volunteer_info['title'] = re.findall("<a.*?>(.*?)</a>", i)[0]
 			result.append(volunteer_info)
 	except Exception, e:
 		print "An error occured, ", e
 	return result
-
-
-
 

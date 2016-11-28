@@ -1,42 +1,72 @@
-﻿#-*- coding: utf-8 -*-
-import sys, os
+# -*- coding: utf-8 -*-
+import sys
+import os
 
 try:
     import telebot
 except ImportError:
     sys.path.append(os.getcwd())
+    sys.path.append("../../")
     import telebot
 
-    from telebot.sejong import utils
     from telebot.sejong import easteregg
     from telebot.sejong import volunteer
+    from telebot.sejong.cvesearch import CVESearch
+    from telebot.sejong import library
     from telebot.sejong import studyroom
+    from telebot.sejong import news
+    from telebot.sejong import rain
 
-    
-# Parser Test
+#rain
+print rain.weather()
 
-a = utils.Parser("-y 2016 -m 11 -d 22")
+# Easter EGG
+# iu_insta = easteregg.Insta("dlwlrma")
+# print iu_insta.getImage()
+# youtube = easteregg.getIUYoutube("IU_playlist.json")
+# print youtube['title'], "|", youtube['url']
 
-a.setAssum(int, "date", ["-d", "d", "date"])
-print a["date"]
-
-a.setAssum(int, "month", ["-m", "m", ])
-print a["month"]
-
-a = utils.Parser("-t dlwlrma")
-a.setAssum(str, "target", ["-t", "t"])
-print a["target"]
-
-
-
-b = utils.Parser("2016 11 22")
-print type(b[0]), b[0]
-b.setType(int, 0)
-print type(b[0]), b[0]
-
-
-print easteregg.crawlInsta()
+# Volunteer
 print volunteer.getVolunteerInternal()
+print volunteer.getVolunteerExternal()
+exit(0)
+
+# Volunteer
+volE = volunteer.getVolunteerExternal()
+volI = volunteer.getVolunteerInternal()
+
+for vol in volE:
+	print vol['title']
+
+for vol in volI:
+	print vol['title']
+	print vol['date']
+	print vol['time']
+
+
+
+
+# library keyword search
+print library.search_book(u'프로그래밍')
+
+# cve search
+cs = CVESearch()
+result = cs.search_by_number('2016-1111')
+print result
+
+#SecuNews
+data = news.getNews('news_issue')
+newsIndex = data[0]
+newsList = data[1]
+
+for index in newsIndex:
+    title = newsIndex[index]
+    print '<',index,'>'
+    print '[',newsList[title,'title'],']'
+    print newsList[title,'description'],'...'
+    print '링크:',newsList[title,'link']
+    print ""
+
 
 # Study room search
 rs = studyroom.RoomStatus.instance()

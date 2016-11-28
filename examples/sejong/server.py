@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import sys
 import os
+import re
 import random
 
 try:
@@ -12,7 +13,8 @@ except ImportError:
 
     from telebot.sejong import easteregg
     from telebot.sejong import volunteer
-    from telebot.sejong import cvesearch
+    from telebot.sejong.cvesearch import CVESearch
+    from telebot.sejong import library
     from telebot.sejong import studyroom
     from telebot.sejong import news
     from telebot import types
@@ -20,8 +22,12 @@ except ImportError:
 try:
     from api_token import API_TOKEN
 except ImportError as e:
+<<<<<<< HEAD
 	API_TOKEN = '276556030:AAGwUMBx9fkUMmISaJSZY7Zy3Rc6krjM7Z8'
 
+=======
+	API_TOKEN = '<api_token>'
+>>>>>>> 6a4b0ff644226ac0ee5d9ed4e80f7e69032aaa94
    
 #################
 bot = telebot.TeleBot(API_TOKEN)
@@ -31,7 +37,62 @@ bot = telebot.TeleBot(API_TOKEN)
 def send_welcome(message):
     bot.reply_to(message, "Howdy, how are you doing?")
 
+<<<<<<< HEAD
 # Easteregg
+=======
+
+@bot.message_handler(commands=['cve'])
+def send_cvesearch(message):
+    try:
+        number = message.text.split(' ')[1]
+    except:
+        number = None
+
+    c = CVESearch()
+    result = c.search_by_number(number)
+    del c
+
+    if result is None:
+        cve_str = u"비정상적인 CVE 번호이거나 존재하지 않는 번호입니다."
+    else:
+        cve_str = u"CVE-%s 검색 결과\n" % number
+        cve_str += u"CVSS : %s\n" % result['cvss']
+        cve_str += u"대상 벤더사 : %s\n" % ', '.join(result['vendor'])
+        cve_str += u"취약점 분류 : %s\n" % result['vt_info']
+        cve_str += u"취약점 설명 : %s\n" % result['summary']
+        cve_str += u"최초 발견자 : %s\n" % result['credit']
+        cve_str += u"상세 설명 : https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-%s" % number
+
+    bot.reply_to(message, cve_str)
+
+
+@bot.message_handler(commands=['library'])
+def send_library(message):
+    try:
+        keyword = message.text.split(' ')[1]
+    except:
+        keyword = None
+
+    result = library.search_book(keyword)
+
+    if result is None:
+        lib_str = u"비정상적인 키워드거나 검색 결과가 없습니다."
+
+    else:
+        lib_str = u"%s 키워드로 검색한 도서입니다\n" % keyword
+
+        lib_str += u"===============================\n"
+
+        for row in result:
+            lib_str += u"도서명 : %s\n" % row['bookName']
+            lib_str += u"도서 관리번호 : %s\n" % row['bookId']
+            lib_str += u"대출 여부 : %s\n" % row['bookStatus']
+            lib_str += u"===============================\n"
+
+    bot.reply_to(message, lib_str)
+
+
+>>>>>>> 6a4b0ff644226ac0ee5d9ed4e80f7e69032aaa94
 @bot.message_handler(commands=['iu'])
 def send_easteregg(message):
     i = random.randint(0, 1)
@@ -75,6 +136,7 @@ def send_volunteerinfo(message):
         result += u"봉사 이름 :"+vol['title']+"\n"
     bot.reply_to(message, result)
 
+<<<<<<< HEAD
 
 
 # News
@@ -122,6 +184,34 @@ def echo_all(message):
 #def echo_all(message):
 #    bot.reply_to(message, message.text)
 #    print message
+=======
+@bot.message_handler(commands=['sroom'])
+def search_sroom(message):
+    p = utils.Parser(" ".join(message.text.split(" ")[1:]))
+
+    p.setType(int,0)
+    p.setType(int,1)
+    p.setType(int,2)
+
+    rs = studyroom.RoomStatus.instance()
+  
+    if '~' in p[3] :
+        s, e = p[3].split('~')
+    elif '-' in p[3] :
+        s, e = p[3].split('-')
+    else:
+        s = e = p[3]
+
+    try:
+        s = int(s)
+        e = int(e)
+        rst = rs.mappingResult(rs.search(p[0],p[1],p[2],range(s,e+1)))
+        bot.reply_to(message, ", ".join(rst))
+        print rst
+    except:
+        bot.reply_to(message, "Error!! %s" %(message.text,))
+
+>>>>>>> 6a4b0ff644226ac0ee5d9ed4e80f7e69032aaa94
 
 
 if __name__ == '__main__':

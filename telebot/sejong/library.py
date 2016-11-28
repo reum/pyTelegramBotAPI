@@ -35,7 +35,6 @@ def search_book(keyword):
         href = a.get("href")
         if re.match('javascript:search.goDetail\([0-9]{6,8}\);', href):
             result.append({'bookName': a.get_text().strip()})
-            print a.get_text().strip()
 
     # counter variable in for loop
     cnt = 0

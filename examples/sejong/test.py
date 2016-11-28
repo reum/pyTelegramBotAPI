@@ -14,6 +14,7 @@ except ImportError:
     from telebot.sejong.cvesearch import CVESearch
     from telebot.sejong import library
     from telebot.sejong import studyroom
+    from telebot.sejong import rain
     from telebot.sejong import news
     from telebot.sejong import rain
 
@@ -28,6 +29,7 @@ print rain.weather()
 
 # Volunteer
 print volunteer.getVolunteerInternal()
+print rain.weather()
 print volunteer.getVolunteerExternal()
 exit(0)
 
@@ -42,8 +44,6 @@ for vol in volI:
 	print vol['title']
 	print vol['date']
 	print vol['time']
-
-
 
 
 # library keyword search

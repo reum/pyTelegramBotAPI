@@ -20,7 +20,7 @@ except ImportError:
 try:
     from api_token import API_TOKEN
 except ImportError as e:
-	API_TOKEN = '276556030:AAGwUMBx9fkUMmISaJSZY7Zy3Rc6krjM7Z8'
+	API_TOKEN = '<api_token>'
 
    
 #################

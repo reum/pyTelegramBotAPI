@@ -10,7 +10,7 @@ except ImportError:
 
     from telebot.sejong import easteregg
     from telebot.sejong import volunteer
-    from telebot.sejong import cvesearch
+    from telebot.sejong.cvesearch import CVESearch
     from telebot.sejong import studyroom
 
 print easteregg.crawlInsta()

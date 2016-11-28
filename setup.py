@@ -15,7 +15,7 @@ setup(name='pyTelegramBotAPI',
       packages=['telebot', 'telebot.sejong'],
       license='GPL2',
       keywords='telegram bot api tools',
-      install_requires=['requests', 'six'],
+      install_requires=['requests', 'six', 'beautifulsoup4'],
       extras_require={
           'json': 'ujson',
       },

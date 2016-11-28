@@ -2,8 +2,9 @@
 import datetime
 import utils
 import urllib2
+from collections import Iterable
 
-DEFAULT_CACHE_EXP_SEC = 30
+DEFAULT_CACHE_EXP_SEC = 600
 
 ROOM_MAP = {
     1 : u'07 스터디룸(7층)_당일예약',
@@ -135,16 +136,23 @@ class RoomStatus(SingletonInstane):
     def __search(self, year, month, date, time):
         
         rst = []
-
-        for room in self.cache[(year, month)]:
-            if room == 'time': continue
-            if (time in self.cache[(year, month)][room][date] ) : rst.append(room)
-
+        try:
+            for room in self.cache[(year, month)]:
+                if room == 'time': continue
+                if (time in self.cache[(year, month)][room][date] ) : rst.append(room)
+        except KeyError:
+            print "Cache Error!" # TODO debug wrap
+            return rst
         return rst
     
     def search(self, year, month, date, time_range):
 
         if type(time_range) is int : time_range = [time_range]
+
+        assert type(year) is int
+        assert type(month) is int
+        assert type(date) is int
+        assert isinstance(time_range, Iterable)
 
         self.update(year, month)
 
@@ -155,6 +163,8 @@ class RoomStatus(SingletonInstane):
             else:
                 preset = set(self.__search(year,month,date,i))
         return list(preset)
+
+
 
     def mappingResult(self, room_list):
         rst = []

@@ -20,7 +20,8 @@ except ImportError:
 try:
     from api_token import API_TOKEN
 except ImportError as e:
-    API_TOKEN = '<api_token>'
+	API_TOKEN = '<api_token>'
+
    
 #################
 bot = telebot.TeleBot(API_TOKEN)
@@ -74,6 +75,7 @@ def send_volunteerinfo(message):
         result += u"봉사 이름 :"+vol['title']+"\n"
     bot.reply_to(message, result)
 
+<<<<<<< HEAD
 
 # News
 @bot.message_handler(commands=['news'])
@@ -88,34 +90,26 @@ def send_news(message):
 @bot.message_handler(func=lambda message: message.text == u'/이슈기사' and message.content_type == 'text')
 def send_news(message):
     chat_id = message.chat.id
-    result = ""
-    news = news.getNews('news_issue')
-    newsIndex = data[0]
-    newsList = data[1]
-    for index in newsIndex:
-        title = newsIndex[index]
-        newsdata += '<',index,'>'
-        newsdata += '[',newsList[title,'title'],']'
-        newsdata += newsList[title,'description'],'...'
-        newsdata += '링크:',newsList[title,'link']
-        newsdata += ""
-    bot.reply_to(message, newsdata)
+    newsList = news.getNews('news_issue')
+    newsText = ""
+	for news in newsList:
+	    newsText += "<"+news['index']+">"+'\n'
+	    newsText += "["+news['title']+"]"+'\n'
+	    newsText += news['description']+"..."+'\n'
+	    newsText += u"링크 : "+news['link']+'\n\n'
+    bot.reply_to(message, newsText)
 
 @bot.message_handler(func=lambda message: message.text == u'/인기기사' and message.content_type == 'text')
 def send_news(message):
     chat_id = message.chat.id
-    result = ""
-    news = news.getNews('news_popular')
-    newsIndex = data[0]
-    newsList = data[1]
-    for index in newsIndex:
-        title = newsIndex[index]
-        newsdata += '<',index,'>'
-        newsdata += '[',newsList[title,'title'],']'
-        newsdata += newsList[title,'description'],'...'
-        newsdata += '링크:',newsList[title,'link']
-        newsdata += ""
-    bot.reply_to(message, newsdata)
+    newsList = news.getNews('news_issue')
+    newsText = ""
+	for news in newsList:
+	    newsText += "<"+news['index']+">"+'\n'
+	    newsText += "["+news['title']+"]"+'\n'
+	    newsText += news['description']+"..."+'\n'
+	    newsText += u"링크 : "+news['link']+'\n\n'
+    bot.reply_to(message, newsText)
 	
 
 # Default
@@ -123,6 +117,12 @@ def send_news(message):
 def echo_all(message):
     bot.reply_to(message, message.text)
     print message
+=======
+#@bot.message_handler(func=lambda message: True)
+#def echo_all(message):
+#    bot.reply_to(message, message.text)
+#    print message
+>>>>>>> dev
 
 if __name__ == '__main__':
 	

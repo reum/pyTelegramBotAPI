@@ -65,6 +65,7 @@ class TeleBot:
         self.message_subscribers_next_step = {}
         self.pre_message_subscribers_next_step = {}
 
+        self.error_handlers = {}
         self.message_handlers = []
         self.edited_message_handlers = []
         self.inline_handlers = []
@@ -265,10 +266,16 @@ class TeleBot:
         logger.info('Stopped polling.')
 
     def _exec_task(self, task, *args, **kwargs):
-        if self.threaded:
-            self.worker_pool.put(task, *args, **kwargs)
-        else:
-            task(*args, **kwargs)
+        try:
+            if self.threaded:
+                self.worker_pool.put(task, *args, **kwargs)
+            else:
+                task(*args, **kwargs)
+        except Exception as e:
+            if task in self.error_handlers:
+                self.error_handlers[task](e, *args, **kwargs)
+            else:
+                raise e
 
     def stop_polling(self):
         self.__stop_polling.set()
@@ -685,6 +692,12 @@ class TeleBot:
             'filters': filters
         }
 
+    def set_error_handler(self, error_handler):
+        def decorator(handler):
+            self.add_error_handler(handler, error_handler)
+            return handler
+        return decorator
+
     def message_handler(self, commands=None, regexp=None, func=None, content_types=['text'], **kwargs):
         """
         Message handler decorator.
@@ -722,12 +735,14 @@ class TeleBot:
                                                     func=func,
                                                     content_types=content_types,
                                                     **kwargs)
-
             self.add_message_handler(handler_dict)
 
             return handler
 
         return decorator
+
+    def add_error_handler(self, handler, error_handler):
+        self.error_handlers[handler] = error_handler
 
     def add_message_handler(self, handler_dict):
         self.message_handlers.append(handler_dict)
@@ -806,6 +821,7 @@ class TeleBot:
             for message_handler in handlers:
                 if self._test_message_handler(message_handler, message):
                     self._exec_task(message_handler['function'], message)
+                    
                     break
 
 

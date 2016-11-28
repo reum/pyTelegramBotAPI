@@ -64,3 +64,4 @@ target/
 testMain.py
 /examples/sejong/api_token.py
 *.pyproj
+/C_Assign04/.vs/C_Assign04/v14

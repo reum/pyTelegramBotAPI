@@ -20,7 +20,7 @@ except ImportError:
 try:
     from api_token import API_TOKEN
 except ImportError as e:
-	API_TOKEN = '<api_token>'
+	API_TOKEN = '276556030:AAGwUMBx9fkUMmISaJSZY7Zy3Rc6krjM7Z8'
 
    
 #################
@@ -92,11 +92,11 @@ def send_news(message):
     chat_id = message.chat.id
     newsList = news.getNews('news_issue')
     newsText = ""
-	for news in newsList:
-	    newsText += "<"+news['index']+">"+'\n'
-	    newsText += "["+news['title']+"]"+'\n'
-	    newsText += news['description']+"..."+'\n'
-	    newsText += u"링크 : "+news['link']+'\n\n'
+    for newsItem in newsList:
+        newsText += "<"+newsItem['index']+">"+'\n'
+        newsText += "["+newsItem['title']+"]"+'\n'
+        newsText += newsItem['description']+"..."+'\n'
+        newsText += u"링크 : "+newsItem['link']+'\n\n'
     bot.reply_to(message, newsText)
 
 @bot.message_handler(func=lambda message: message.text == u'/인기기사' and message.content_type == 'text')
@@ -104,11 +104,11 @@ def send_news(message):
     chat_id = message.chat.id
     newsList = news.getNews('news_issue')
     newsText = ""
-	for news in newsList:
-	    newsText += "<"+news['index']+">"+'\n'
-	    newsText += "["+news['title']+"]"+'\n'
-	    newsText += news['description']+"..."+'\n'
-	    newsText += u"링크 : "+news['link']+'\n\n'
+    for newsItem in newsList:
+        newsText += "<"+newsItem['index']+">"+'\n'
+        newsText += "["+newsItem['title']+"]"+'\n'
+        newsText += newsItem['description']+"..."+'\n'
+        newsText += u"링크 : "+newsItem['link']+'\n\n'
     bot.reply_to(message, newsText)
 	
 

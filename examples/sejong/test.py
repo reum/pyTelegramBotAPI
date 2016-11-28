@@ -11,8 +11,8 @@ except ImportError:
 
     from telebot.sejong import easteregg
     from telebot.sejong import volunteer
+    from telebot.sejong.cvesearch import CVESearch
     from telebot.sejong import library
-    from telebot.sejong import cvesearch
     from telebot.sejong import studyroom
     from telebot.sejong import news
 
@@ -82,3 +82,4 @@ print rs.search(2016,10,12,range(10, 10+4))
 
 # usage 3
 print rs.mappingResult(rs.search(2016,10,12,range(10, 10+4)))
+

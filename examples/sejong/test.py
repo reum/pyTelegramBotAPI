@@ -17,6 +17,21 @@ except ImportError:
 print easteregg.crawlInsta()
 print volunteer.getVolunteerInternal()
 
+# Volunteer
+volE = volunteer.getVolunteerExternal()
+volI = volunteer.getVolunteerInternal()
+
+for vol in volE:
+	print vol['title']
+
+for vol in volI:
+	print vol['title']
+	print vol['date']
+	print vol['time']
+
+
+
+
 # cve search
 cs = CVESearch()
 result = cs.search_by_number('2016-1111')

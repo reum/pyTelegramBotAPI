@@ -25,17 +25,21 @@ def getNews(command):
 
     i=1
     for newsItem in newsItems:
-        title = newsItem.find("title").get_text()
-        description = newsItem.find("description").get_text()
-        link = newsItem.find("link").get_text()
-        
-        newsDict['index']  = str(i)
-        newsDict['title']  = title                # title
-        newsDict['description'] = description     # news description
-        newsDict['link'] = link                   # link to news
-        
-        newsList.append(newsDict)
-        newsDict = {}
-        i=i+1        
+        if i==11:
+            return newsList
+        else:
+            title = newsItem.find("title").get_text()
+            description = newsItem.find("description").get_text()
+            link = newsItem.find("link").get_text()
+            
+            newsDict['index']  = str(i)
+            newsDict['title']  = title                # title
+            newsDict['description'] = description     # news description
+            newsDict['link'] = link                   # link to news
+            
+            newsList.append(newsDict)
+            newsDict = {}
+            i=i+1   
 
     return newsList
+

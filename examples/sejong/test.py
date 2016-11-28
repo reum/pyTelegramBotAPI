@@ -62,7 +62,6 @@ for news in newsList:
     newsText += "["+news['title']+"]"+'\n'
     newsText += news['description']+"..."+'\n'
     newsText += u"링크 : "+news['link']+'\n\n'
-newsText = newsText[:4096]
 print newsText 
 
 

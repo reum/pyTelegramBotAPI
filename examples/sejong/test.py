@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import sys
 import os
 
@@ -15,6 +15,10 @@ except ImportError:
     from telebot.sejong import library
     from telebot.sejong import studyroom
     from telebot.sejong import news
+    from telebot.sejong import rain
+
+#rain
+print rain.weather()
 
 # Easter EGG
 #iu_insta = easteregg.Insta("dlwlrma")

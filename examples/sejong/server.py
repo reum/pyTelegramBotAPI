@@ -45,8 +45,9 @@ def send_welcome(message):
 /iu : 아이유 사진 / 음악 출력
 /cve <CVE-를 제외한 CVE ID> : CVE 번호에 해당하는 정보 출력
 /library <키워드> : 키워드에 해당하는 책 리스트 및 대출 가능여부 출력
-/weather: 강수확률 + 메시지 출력
+/weather: 오늘 우산을 챙겨야 할까요?
 /sroom <year> <month> <day> <time_range> : 해당 시간에 대여가능한 스터디룸 목록 출력
+예시) /sroom 2016 11 30 12~14
 ======================================
     """
     bot.reply_to(message, help_info)
@@ -152,8 +153,6 @@ def send_volunteerinfo(message):
         result += u"봉사 이름 :"+vol['title']+"\n"
     bot.reply_to(message, result)
 
-
-
 # News
 @bot.message_handler(commands=['news'])
 def send_news(message):
@@ -208,7 +207,6 @@ Github : https://github.com/reum/pyTelegramBotAPI/
 def search_sroom(message):
     args = message.text.split(" ")[1:]
     rs = studyroom.RoomStatus.instance()
-    print "asd"
     if len(args) == 3:
         args.insert(0, "2016") # TODO
 
@@ -224,7 +222,7 @@ def search_sroom(message):
         e = int(e)
         rst = rs.mappingResult(rs.search(int(args[0]),int(args[1]),int(args[2]),range(s,e+1)))
         bot.reply_to(message, ", ".join(rst))
-    except:
+    except Exception, e:
         bot.reply_to(message, "Error!! %s" %(message.text,))
 
 if __name__ == '__main__':

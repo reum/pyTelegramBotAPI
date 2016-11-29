@@ -198,13 +198,6 @@ Github : https://github.com/reum/pyTelegramBotAPI/
 
     bot.reply_to(message, credit_text)
 
-
-# Default
-@bot.message_handler(func=lambda message: True)
-def echo_all(message):
-    bot.reply_to(message, message.text)
-    print message
-
 #@bot.message_handler(func=lambda message: True)
 #def echo_all(message):
 #    bot.reply_to(message, message.text)

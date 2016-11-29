@@ -5,7 +5,7 @@ import re
 import random
 
 try:
-    import telebot
+    import telebot1
 except ImportError:
     sys.path.append("../../")
     sys.path.append(os.getcwd())
@@ -30,9 +30,24 @@ except ImportError as e:
 bot = telebot.TeleBot(API_TOKEN)
 #################
 
-@bot.message_handler(commands=['start', 'help'])
+# help
+@bot.message_handler(commands=['help'])
 def send_welcome(message):
-    bot.reply_to(message, "Howdy, how are you doing?")
+    help_info = """
+@OSSBeemoBot 사용법
+======================================
+/help : 도움말 출력
+/credit : 제작자 출력 (알파벳순)
+/news : 정보보안 뉴스 보기
+/vol : 세종사회봉사 리스트 보기
+/iu : 아이유 사진 / 음악 출력
+/cve <CVE-를 제외한 CVE ID> : CVE 번호에 해당하는 정보 출력
+/library <키워드> : 키워드에 해당하는 책 리스트 및 대출 가능여부 출력
+/weather: 강수확률 + 메시지 출력
+/sroom <year> <month> <day> <time_range> : 해당 시간에 대여가능한 스터디룸 목록 출력
+======================================
+    """
+    bot.reply_to(message, help_info)
 
 
 # Weather
@@ -170,7 +185,19 @@ def send_news(message):
         newsText += newsItem['description']+"..."+'\n'
         newsText += u"링크 : "+newsItem['link']+'\n\n'
     bot.reply_to(message, newsText)
-	
+
+
+# credit
+@bot.message_handler(commands=['credit'])
+def credit_info(message):
+    credit_text = """
+@bunseokbot, @daeunim, @jsh95311, @reum, @sweetchipsw
+Class : Open Source Software
+Github : https://github.com/reum/pyTelegramBotAPI/
+    """
+
+    bot.reply_to(message, credit_text)
+
 
 # Default
 @bot.message_handler(func=lambda message: True)

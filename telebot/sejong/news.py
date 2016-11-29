@@ -18,20 +18,28 @@ def getNews(command):
             return error_message
 
     soup = BeautifulSoup(r, "html.parser")
-    news = soup.find_all("item")
+    newsItems = soup.find_all("item")
 
-    newsIndex = {}
-    newsList = {}
+    newsList = []
+    newsDict = {}
 
     i=1
-    for element in news:
-        title = element.find("title").get_text()
-        description = element.find("description").get_text()
-        link = element.find("link").get_text()
-        newsIndex[i] = title
-        newsList[title,'title']  = title                # title
-        newsList[title,'description'] = description     # news description
-        newsList[title,'link'] = link                   # link to news
-        i=i+1
+    for newsItem in newsItems:
+        if i==11:
+            return newsList
+        else:
+            title = newsItem.find("title").get_text()
+            description = newsItem.find("description").get_text()
+            link = newsItem.find("link").get_text()
+            
+            newsDict['index']  = str(i)
+            newsDict['title']  = title                # title
+            newsDict['description'] = description     # news description
+            newsDict['link'] = link                   # link to news
+            
+            newsList.append(newsDict)
+            newsDict = {}
+            i=i+1   
 
-    return (newsIndex, newsList)
+    return newsList
+

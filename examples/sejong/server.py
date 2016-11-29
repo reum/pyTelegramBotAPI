@@ -224,7 +224,6 @@ def search_sroom(message):
         e = int(e)
         rst = rs.mappingResult(rs.search(int(args[0]),int(args[1]),int(args[2]),range(s,e+1)))
         bot.reply_to(message, ", ".join(rst))
-        print rst
     except:
         bot.reply_to(message, "Error!! %s" %(message.text,))
 

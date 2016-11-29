@@ -21,6 +21,8 @@ except ImportError:
 
     from telebot import types
 
+    from telebot.sejong import utils
+
 try:
     from api_token import API_TOKEN
 except ImportError as e:

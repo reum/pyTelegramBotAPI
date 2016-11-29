@@ -39,7 +39,6 @@ def send_welcome(message):
 @bot.message_handler(commands=['weather'])
 def send_weather(message):
     result = rain.weather()
-    print result
     bot.reply_to(message, result)
 
 @bot.message_handler(commands=['cve'])

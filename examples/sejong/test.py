@@ -17,6 +17,15 @@ except ImportError:
     from telebot.sejong import rain
     from telebot.sejong import news
     from telebot.sejong import rain
+    from telebot.sejong import utils
+
+p = utils.Parser("2016 11 30 0~24")
+
+p.setType(int,0)
+p.setType(int,1)
+p.setType(int,2)
+
+print p[3]
 
 #rain
 print rain.weather()

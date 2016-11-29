@@ -206,25 +206,23 @@ Github : https://github.com/reum/pyTelegramBotAPI/
 #    print message
 @bot.message_handler(commands=['sroom'])
 def search_sroom(message):
-    p = utils.Parser(" ".join(message.text.split(" ")[1:]))
-
-    p.setType(int,0)
-    p.setType(int,1)
-    p.setType(int,2)
-
+    args = message.text.split(" ")[1:]
     rs = studyroom.RoomStatus.instance()
-  
-    if '~' in p[3] :
-        s, e = p[3].split('~')
-    elif '-' in p[3] :
-        s, e = p[3].split('-')
+    print "asd"
+    if len(args) == 3:
+        args.insert(0, "2016") # TODO
+
+    if '~' in args[3] :
+        s, e = args[3].split('~')
+    elif '-' in args[3] :
+        s, e = args[3].split('-')
     else:
-        s = e = p[3]
+        s = e = args[3]
 
     try:
         s = int(s)
         e = int(e)
-        rst = rs.mappingResult(rs.search(p[0],p[1],p[2],range(s,e+1)))
+        rst = rs.mappingResult(rs.search(int(args[0]),int(args[1]),int(args[2]),range(s,e+1)))
         bot.reply_to(message, ", ".join(rst))
         print rst
     except:

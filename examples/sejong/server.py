@@ -32,6 +32,7 @@ bot = telebot.TeleBot(API_TOKEN)
 def send_welcome(message):
     bot.reply_to(message, "Howdy, how are you doing?")
 
+# Easteregg
 
 @bot.message_handler(commands=['cve'])
 def send_cvesearch(message):
@@ -96,7 +97,7 @@ def send_easteregg(message):
         youtube_str = u"오늘의 음악추천 : "+youtube['title']+ u"\nURL :"+ youtube['url']
         bot.reply_to(message, youtube_str)
 
-
+# Sejong Volunteer
 @bot.message_handler(commands=['vol'])
 def send_volunteerinfo(message):
     chat_id = message.chat.id
@@ -127,6 +128,53 @@ def send_volunteerinfo(message):
         result += u"봉사 이름 :"+vol['title']+"\n"
     bot.reply_to(message, result)
 
+
+
+# News
+@bot.message_handler(commands=['news'])
+def send_news(message):
+    chat_id = message.chat.id
+    markup = types.ReplyKeyboardMarkup()
+    btn_issue = types.KeyboardButton(u'/이슈기사')
+    btn_popular = types.KeyboardButton(u'/인기기사')
+    markup.row(btn_issue, btn_popular)
+    bot.send_message(chat_id, "Choose an option:", reply_markup=markup)
+
+@bot.message_handler(func=lambda message: message.text == u'/이슈기사' and message.content_type == 'text')
+def send_news(message):
+    chat_id = message.chat.id
+    newsList = news.getNews('news_issue')
+    newsText = ""
+    for newsItem in newsList:
+        newsText += "<"+newsItem['index']+">"+'\n'
+        newsText += "["+newsItem['title']+"]"+'\n'
+        newsText += newsItem['description']+"..."+'\n'
+        newsText += u"링크 : "+newsItem['link']+'\n\n'
+    bot.reply_to(message, newsText)
+
+@bot.message_handler(func=lambda message: message.text == u'/인기기사' and message.content_type == 'text')
+def send_news(message):
+    chat_id = message.chat.id
+    newsList = news.getNews('news_popular')
+    newsText = ""
+    for newsItem in newsList:
+        newsText += "<"+newsItem['index']+">"+'\n'
+        newsText += "["+newsItem['title']+"]"+'\n'
+        newsText += newsItem['description']+"..."+'\n'
+        newsText += u"링크 : "+newsItem['link']+'\n\n'
+    bot.reply_to(message, newsText)
+	
+
+# Default
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    bot.reply_to(message, message.text)
+    print message
+
+#@bot.message_handler(func=lambda message: True)
+#def echo_all(message):
+#    bot.reply_to(message, message.text)
+#    print message
 @bot.message_handler(commands=['sroom'])
 def search_sroom(message):
     p = utils.Parser(" ".join(message.text.split(" ")[1:]))
@@ -154,7 +202,9 @@ def search_sroom(message):
         bot.reply_to(message, "Error!! %s" %(message.text,))
 
 
+
 if __name__ == '__main__':
+	
     iu_insta = easteregg.Insta("dlwlrma")
     iu_youtube = easteregg.IUYoutube()
     iu_youtube.setJsonFile("IU_playlist.json")

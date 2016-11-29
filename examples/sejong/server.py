@@ -17,6 +17,8 @@ except ImportError:
     from telebot.sejong import library
     from telebot.sejong import studyroom
     from telebot.sejong import news
+    from telebot.sejong import rain
+
     from telebot import types
 
 try:
@@ -32,7 +34,12 @@ bot = telebot.TeleBot(API_TOKEN)
 def send_welcome(message):
     bot.reply_to(message, "Howdy, how are you doing?")
 
-# Easteregg
+
+# Weather
+@bot.message_handler(commands=['weather'])
+def send_weather(message):
+    result = rain.weather()
+    bot.reply_to(message, result)
 
 @bot.message_handler(commands=['cve'])
 def send_cvesearch(message):
@@ -200,8 +207,6 @@ def search_sroom(message):
         print rst
     except:
         bot.reply_to(message, "Error!! %s" %(message.text,))
-
-
 
 if __name__ == '__main__':
 	
